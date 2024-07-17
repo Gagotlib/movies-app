@@ -9,11 +9,17 @@ export default function MoviesList() {
 
 	const [searchTerm, setSearchTerm] = React.useState('')
 
-	const filteredMovies = sortedMovies.filter((movie) => movie.title.toLowerCase().includes(searchTerm.toLowerCase()) || movie.director.toLowerCase().includes(searchTerm.toLowerCase()))
+	const filteredMovies = sortedMovies.filter(
+		(movie) =>
+			movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			movie.director.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			movie.year === Number(searchTerm) ||
+			movie.genre.some((genre) => genre.toLowerCase().includes(searchTerm.toLowerCase()))
+	)
 
 	return (
 		<>
-			<TextInput style={styles.input} placeholder='Search by Title or Director' value={searchTerm} onChangeText={setSearchTerm} />
+			<TextInput style={styles.input} placeholder='Search by Title, Director, Year or Genre' value={searchTerm} onChangeText={setSearchTerm} />
 
 			<FlatList data={filteredMovies} renderItem={({ item: movie }) => <MovieCard movie={movie} />}></FlatList>
 			{/* <Footer /> */}

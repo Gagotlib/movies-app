@@ -1,13 +1,11 @@
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
-import { StatusBar } from 'expo-status-bar'
-import MoviesList from './MoviesList'
+import MoviesList from '../components/MoviesList'
 import React from 'react'
-import Footer from './Footer'
+
 
 export default function Main({ navigation }) {
 	return (
 		<View style={styles.container}>
-			<StatusBar style='auto' />
 			<View style={styles.header}>
 				<Text style={styles.h1}>Movies App</Text>
 				<Pressable onPress={() => navigation.navigate('SignIn')} style={styles.button}>

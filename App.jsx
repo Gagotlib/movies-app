@@ -1,16 +1,16 @@
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, ScrollView, View } from 'react-native'
-import Main from './src/components/Main.jsx'
-import Footer from './src/components/Footer.jsx'
+import Main from './src/pages/Main.jsx'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import SignIn from './src/components/SignIn.jsx'
+import SignIn from './src/pages/SignIn.jsx'
 
 export default function App() {
 	const Stack = createNativeStackNavigator()
 
 	return (
 		<NavigationContainer>
+			<StatusBar style='auto' />
 			<Stack.Navigator initialRouteName='Home'>
 				<Stack.Screen name='Main' component={Main} options={{ headerShown: false }} />
 				<Stack.Screen name='SignIn' component={SignIn} options={{ title: 'Sign In' }} />
