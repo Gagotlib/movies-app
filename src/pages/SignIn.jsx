@@ -5,21 +5,51 @@ import StyledTextInput from '../components/StyledTextInput'
 import StyledButton from '../components/StyledButton'
 
 export default function SignIn({ navigation }) {
+	const validate = (values) => {
+		const errors = {}
+
+		if (!values.email) {
+			errors.email = 'Email is Required'
+		} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+			errors.email = 'Invalid Email Address'
+		}
+
+		if (!values.password) {
+			errors.password = 'Password is Required'
+		} else if (values.password.length < 6) {
+			errors.password = 'Password must be at least 6 characters'
+		}
+
+		// si no hay errores que no devuelva nada
+		// if (!Object.keys(errors).length) return
+		// console.log(errors)
+		return errors
+	}
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.h1}>Sing in</Text>
-			<Formik initialValues={{ email: '', password: '' }} onSubmit={(values) => console.log(values)}>
+			<Formik validate={validate} initialValues={{ email: '', password: '' }} onSubmit={(values) => console.log(values)}>
 				{({ handleSubmit, values, errors, handleChange }) => (
 					<View>
-						<StyledTextInput placeholder='Email' value={values.email} onChangeText={handleChange('email')} />
-						<StyledTextInput placeholder='Password' secureTextEntry={true} value={values.password} onChangeText={handleChange('password')} />
-						
-						<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+						<StyledTextInput style={errors.email && { borderColor: 'red' }} placeholder='Email' value={values.email} onChangeText={handleChange('email')} />
+						{errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
 
-						<StyledButton onPress={handleSubmit} style={{ backgroundColor: 'green' }}>
-							Sing In
-						</StyledButton>
-						<StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton>
+						<StyledTextInput style={errors.password && { borderColor: 'red' }} placeholder='Password' secureTextEntry={true} value={values.password} onChangeText={handleChange('password')} />
+						{errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
+						<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+							{/* si hay errores quiero que se deshabillite el sumbit */}
+							{Object.keys(errors).length ? (
+								<StyledButton disabled style={{ backgroundColor: 'gray' }}>
+									Sign In
+								</StyledButton>
+							) : (
+								<StyledButton onPress={handleSubmit} style={{ backgroundColor: 'green' }}>
+									Sing In
+								</StyledButton>
+							)}
+
+							<StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton>
 						</View>
 					</View>
 				)}
@@ -40,7 +70,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 		color: 'black'
-	},
+	}
 	// input: {
 	// 	height: 40,
 	// 	margin: 12,

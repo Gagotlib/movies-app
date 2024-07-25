@@ -11,7 +11,7 @@ export default function MovieCard({ movie }) {
 	]
 
 	return (
-		<View key={movie._id.$oid} style={styles.cardContainer}>
+		<View key={movie.id} style={styles.cardContainer}>
 			<Text style={styles.movieTitle}>{movie.title}</Text>
 			<TouchableOpacity onPress={() => setIsVisible(true)}>
 				<Image style={styles.poster} source={{ uri: movie.poster }} />
@@ -21,7 +21,7 @@ export default function MovieCard({ movie }) {
 			<Text>Duration: {movie.duration}</Text>
 			<Text>Genre: {movie.genre.join(', ')}</Text>
 			<Text>Rate: {movie.rate}</Text>
-			<Text>Description: {movie.description}</Text>
+			<Text style={{ textAlign: 'center' }}>Description: {movie.description}</Text>
 
 			<Modal visible={isVisible} transparent={true} onRequestClose={() => setIsVisible(false)}>
 				<ImageViewer imageUrls={images} enableSwipeDown={true} onSwipeDown={() => setIsVisible(false)} />
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 		margin: 10,
 		elevation: 5,
 		gap: 5,
-
+		alignItems: "center",
 	},
 	movieTitle: {
 		fontSize: 20,

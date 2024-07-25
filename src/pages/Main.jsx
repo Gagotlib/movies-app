@@ -3,6 +3,7 @@ import MoviesList from '../components/MoviesList'
 import React from 'react'
 
 
+
 export default function Main({ navigation }) {
 	return (
 		<View style={styles.container}>
