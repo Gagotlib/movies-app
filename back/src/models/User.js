@@ -6,6 +6,10 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	email: {
+		type: String,
+		required: true
+	},
 	password: {
 		type: String,
 		required: true
@@ -15,7 +19,12 @@ const userSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Movie'
 		}
-	]
+	],
+	role : {
+		type: String,
+    enum: ['admin', 'user'],
+    default: 'user'
+	}
 })
 
 const User = mongoose.model('User', userSchema)

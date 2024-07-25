@@ -1,13 +1,19 @@
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import React from 'react'
-import { Form, Formik } from 'formik'
 import StyledTextInput from '../components/StyledTextInput'
 import StyledButton from '../components/StyledButton'
 import axios from 'axios'
+import { Form, Formik } from 'formik'
 
-export default function SignIn({ navigation }) {
+const Register = ({ navigation }) => {
 	const validate = (values) => {
 		const errors = {}
+
+		if (!values.username) {
+			errors.username = 'Username is Required'
+		} else if (values.username.length < 3) {
+			errors.username = 'Username must be at least 3 characters'
+		}
 
 		if (!values.email) {
 			errors.email = 'Email is Required'
@@ -27,28 +33,31 @@ export default function SignIn({ navigation }) {
 		return errors
 	}
 
-	const handleLogin = async (values) => {
+	const handleRegister = async (values) => {
 		try {
 			values.email = values.email.toLowerCase()
-			const response = await axios.post('http://192.168.178.48:3000/users/login', values)
-			// console.log(response.data)
-			Alert.alert('Login successful')
-			//here goes logic to save de user in session
 
-			navigation.navigate('Main')
+			const response = await axios.post('http://192.168.178.48:3000/users/', values)
+			// console.log(response.data)
+			Alert.alert('Register successful')
+			navigation.navigate('SignIn')
 		} catch (error) {
-			// console.error('Login failed:', error)
-			const errorMessage = error.response?.data?.error || 'An error occurred during login'
-			Alert.alert('Login Error', errorMessage)
+			// console.error(error.response.data.message)
+			const errorMessage = error.response?.data?.message
+			Alert.alert('Register Error', errorMessage)
+			// Alert.alert('Login Error', errorMessage)
 		}
 	}
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.h1}>Sing in</Text>
-			<Formik validate={validate} initialValues={{ email: '', password: '' }} onSubmit={handleLogin}>
+			<Text style={styles.h1}>Register</Text>
+			<Formik validate={validate} initialValues={{ email: '', username: '', password: '' }} onSubmit={handleRegister}>
 				{({ handleSubmit, values, errors, handleChange }) => (
 					<View>
+						<StyledTextInput style={errors.username && { borderColor: 'red' }} placeholder='Username' value={values.username} onChangeText={handleChange('username')} />
+						{errors.username && <Text style={{ color: 'red' }}>{errors.username}</Text>}
+
 						<StyledTextInput style={errors.email && { borderColor: 'red' }} placeholder='Email' value={values.email} onChangeText={handleChange('email')} />
 						{errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
 
@@ -58,18 +67,16 @@ export default function SignIn({ navigation }) {
 							{/* si hay errores quiero que se deshabillite el sumbit */}
 							{Object.keys(errors).length ? (
 								<StyledButton disabled style={{ backgroundColor: 'gray' }}>
-									Sign In
+									Register
 								</StyledButton>
 							) : (
 								<StyledButton onPress={handleSubmit} style={{ backgroundColor: 'green' }}>
-									Sing In
+									Register
 								</StyledButton>
 							)}
 
 							<StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton>
 						</View>
-						<Text style={styles.text}>Still not registered?</Text>
-						<StyledButton onPress={() => navigation.navigate('Register')}>Register</StyledButton>
 					</View>
 				)}
 			</Formik>
@@ -89,11 +96,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 		color: 'black'
-	},
-	text: {
-		textAlign: 'center',
-		color: 'black',
-		fontSize: 18,
-		paddingVertical: 10
 	}
 })
+
+export default Register

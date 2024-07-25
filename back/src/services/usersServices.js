@@ -1,16 +1,23 @@
 const User = require('../models/User')
 const Movie = require('../models/Movie')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+
+const secretKey = process.env.SECRET_KEY
 
 class Users {
-	constructor({ id, username, password, favMovies }) {
+	constructor({ id, username, email, password, favMovies, role }) {
 		if (!username || !password) {
 			throw new Error('username and password are required')
 		}
 
 		this.id = id
 		this.username = username
+		this.email = email
 		this.password = password
 		this.favMovies = favMovies
+		this.role = role
 	}
 }
 
@@ -24,11 +31,26 @@ const getAllUsersService = async () => {
 }
 
 const createUserService = async (user) => {
+	const saltRounds = 10
 	try {
-		const newUser = await User.create(user)
+
+    const userEmail = user.email.toLowerCase()
+
+		const existingUser = await User.findOne({ email: userEmail })
+		if (existingUser) {
+			throw new Error('Email already in use')
+		}
+
+		const hashedPassword = await bcrypt.hash(user.password, saltRounds)
+		const newUser = await User.create({
+			username: user.username,
+			password: hashedPassword,
+			email: userEmail,
+			role: user.role || 'user'
+		})
 		return newUser
 	} catch (error) {
-		throw new Error(error)
+		throw new Error(error.message)
 	}
 }
 
@@ -92,4 +114,25 @@ async function removeFavoriteMovie(userId, movieId) {
 	}
 }
 
-module.exports = { getAllUsersService, createUserService, getUserByIdService, addFavoriteMovie, removeFavoriteMovie }
+async function loginUser(email, password) {
+	try {
+    const lowerEmail = email.toLowerCase()
+		const user = await User.findOne({ email: lowerEmail })
+		if (!user) {
+			throw new Error('User not found')
+		}
+
+		const isMatch = await bcrypt.compare(password, user.password)
+		if (!isMatch) {
+			throw new Error('Invalid password')
+		}
+
+		const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' })
+
+		return { user, token }
+	} catch (error) {
+		throw new Error(error.message)
+	}
+}
+
+module.exports = { getAllUsersService, createUserService, getUserByIdService, addFavoriteMovie, removeFavoriteMovie, loginUser }

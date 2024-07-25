@@ -1,4 +1,4 @@
-const { getAllUsersService, createUserService, addFavoriteMovie, getUserByIdService, removeFavoriteMovie } = require('../services/usersServices')
+const { getAllUsersService, createUserService, addFavoriteMovie, getUserByIdService, removeFavoriteMovie, loginUser } = require('../services/usersServices')
 
 
 
@@ -29,8 +29,8 @@ const createUserController = async (req, res) => {
     const newUser = await createUserService(user)
     res.status(201).json(newUser)
   } catch (error) {
-    res.status(500).json({
-      message: `error creating user: ${error}`
+    res.status(400).json({
+      message: `Error creating user. ${error}`
     })
   }
 }
@@ -61,4 +61,15 @@ const removeFavoriteMovieController = async (req, res) => {
   }
 }
 
-module.exports = { getAllUsersController, createUserController, addFavoriteMovieController, getUserByIdController, removeFavoriteMovieController }
+async function loginController(req, res) {
+	const { email, password } = req.body
+
+	try {
+		const { user, token } = await loginUser(email, password)
+		res.status(200).json({ user, token })
+	} catch (error) {
+		res.status(400).json({ error: error.message })
+	}
+}
+
+module.exports = { getAllUsersController, createUserController, addFavoriteMovieController, getUserByIdController, removeFavoriteMovieController, loginController }
