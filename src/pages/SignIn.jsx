@@ -68,8 +68,10 @@ export default function SignIn({ navigation }) {
 
 							<StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton>
 						</View>
-						<Text style={styles.text}>Still not registered?</Text>
-						<StyledButton onPress={() => navigation.navigate('Register')}>Register</StyledButton>
+						<View className='flex items-center'>
+							<Text style={styles.text}>Still not registered?</Text>
+							<StyledButton onPress={() => navigation.navigate('Register')}>Register</StyledButton>
+						</View>
 					</View>
 				)}
 			</Formik>

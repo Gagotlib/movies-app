@@ -35,7 +35,7 @@ export default function MoviesList() {
 const styles = StyleSheet.create({
 	input: {
 		height: 40,
-		margin: 12,
+		margin: 10,
 		borderWidth: 1,
 		padding: 10,
 		backgroundColor: 'white',
