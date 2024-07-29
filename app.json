@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-tutorial",
-    "slug": "expo-tutorial",
+    "name": "Movies-app",
+    "slug": "Movies-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

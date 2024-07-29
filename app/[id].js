@@ -23,18 +23,14 @@ export default function Detail({}) {
 
 	return (
 		<ScrollView contentContainerStyle={{ paddingTop: 20 }}>
-      <Stack.Screen
-      // options={
-
-      // }
-      />
-			{/* <Link asChild href='/' className='flex text-center bg-blue-700 py-2 px-4 rounded-lg text-white font-bold absolute top-10 left-5'>
+			<Stack.Screen options={{ headerTitle: `${movie?.title}` }} />
+			{/* <Link asChild href='/' className='absolute flex px-4 py-2 font-bold text-center text-white bg-blue-700 rounded-lg top-10 left-5'>
 				<Pressable>
 					<FontAwesome name='home' size={24} color='white' />
 				</Pressable>
 			</Link> */}
-			<View className='flex justify-center items-center gap-3 px-4 '>
-				<Text className='text-3xl mb-5'> {movie?.title}</Text>
+			<View className='flex items-center justify-center gap-3 px-4 '>
+				<Text className='mb-5 text-3xl'> {movie?.title}</Text>
 
 				<Image src={movie?.poster} className='w-[300px] h-[500px] ' />
 				<Text>Year: {movie?.year}</Text>

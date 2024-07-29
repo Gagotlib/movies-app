@@ -1,9 +1,10 @@
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { Form, Formik } from 'formik'
 import StyledTextInput from '../components/StyledTextInput'
 import StyledButton from '../components/StyledButton'
 import axios from 'axios'
+import { Link } from 'expo-router'
 
 export default function SignIn({ navigation }) {
 	const validate = (values) => {
@@ -70,7 +71,11 @@ export default function SignIn({ navigation }) {
 						</View>
 						<View className='flex items-center'>
 							<Text style={styles.text}>Still not registered?</Text>
-							<StyledButton onPress={() => navigation.navigate('Register')}>Register</StyledButton>
+							<Link asChild href='/register'>
+								<Pressable>
+									<Text className='px-4 py-2 font-bold text-center text-white bg-blue-700 rounded-lg'>Register</Text>
+								</Pressable>
+							</Link>
 						</View>
 					</View>
 				)}

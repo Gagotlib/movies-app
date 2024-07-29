@@ -46,11 +46,17 @@ export default function SignIn({ navigation }) {
 	}
 
 	return (
-		<View className='flex pt-20  items-center'>
+		<View className='flex items-center pt-20'>
 			<Stack.Screen
 				options={{
 					headerTitle: 'Login',
-					headerRight: () => {}
+					headerRight: () => (
+						<Link asChild href='/' className='px-4 py-2 text-white bg-blue-700 rounded-lg'>
+							<Pressable>
+								<FontAwesome name='home' size={24} color='white' />
+							</Pressable>
+						</Link>
+					)
 				}}
 			/>
 			<View className='flex w-3/4'>
@@ -76,7 +82,7 @@ export default function SignIn({ navigation }) {
 								)}
 								{/* <Link asChild href='/'>
 									<Pressable>
-										<Text className='text-center bg-blue-700 py-2 px-4 rounded-lg text-white font-bold'>Back Home</Text>
+										<Text className='px-4 py-2 font-bold text-center text-white bg-blue-700 rounded-lg'>Back Home</Text>
 									</Pressable>
 								</Link> */}
 							</View>
@@ -84,7 +90,7 @@ export default function SignIn({ navigation }) {
 								<Text style={styles.text}>Still not registered?</Text>
 								<Link asChild href='/register'>
 									<Pressable>
-										<Text className='text-center bg-blue-700 py-2 px-4 rounded-lg text-white font-bold'>Register</Text>
+										<Text className='px-4 py-2 font-bold text-center text-white bg-blue-700 rounded-lg'>Register</Text>
 									</Pressable>
 								</Link>
 							</View>

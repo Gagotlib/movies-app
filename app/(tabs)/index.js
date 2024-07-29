@@ -1,4 +1,4 @@
-import  Main  from '../src/pages/Main.jsx'
+import  Main  from '../../src/pages/Main.jsx'
 
 export default function Index() {
 	return <Main />
