@@ -1,10 +1,9 @@
-import { Text, View } from 'react-native'
-import  MyProfile  from '../../src/pages/MyProfile'
+import MyProfileNavigator from '../../src/navigators/MyProfileNavigator'
 
 export default function myProfile() {
 	return (
 		<>
-			<MyProfile />
+			<MyProfileNavigator />
 		</>
 	)
 }

@@ -4,7 +4,7 @@ import { Form, Formik } from 'formik'
 import StyledTextInput from '../components/StyledTextInput'
 import StyledButton from '../components/StyledButton'
 import axios from 'axios'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 
 export default function SignIn({ navigation }) {
 	const validate = (values) => {
@@ -22,8 +22,6 @@ export default function SignIn({ navigation }) {
 			errors.password = 'Password must be at least 6 characters'
 		}
 
-		// si no hay errores que no devuelva nada
-		// if (!Object.keys(errors).length) return
 		// console.log(errors)
 		return errors
 	}
@@ -36,7 +34,7 @@ export default function SignIn({ navigation }) {
 			Alert.alert('Login successful')
 			//here goes logic to save de user in session
 
-			navigation.navigate('Main')
+			router.push('/')
 		} catch (error) {
 			// console.error('Login failed:', error)
 			const errorMessage = error.response?.data?.error || 'An error occurred during login'
@@ -55,7 +53,7 @@ export default function SignIn({ navigation }) {
 
 						<StyledTextInput style={errors.password && { borderColor: 'red' }} placeholder='Password' secureTextEntry={true} value={values.password} onChangeText={handleChange('password')} />
 						{errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
-						<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+						<View className='flex items-center'>
 							{/* si hay errores quiero que se deshabillite el sumbit */}
 							{Object.keys(errors).length ? (
 								<StyledButton disabled style={{ backgroundColor: 'gray' }}>
@@ -67,15 +65,15 @@ export default function SignIn({ navigation }) {
 								</StyledButton>
 							)}
 
-							<StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton>
+							{/* <StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton> */}
 						</View>
-						<View className='flex items-center'>
+						<View className='flex items-center mt-10'>
 							<Text style={styles.text}>Still not registered?</Text>
-							<Link asChild href='/register'>
-								<Pressable>
-									<Text className='px-4 py-2 font-bold text-center text-white bg-blue-700 rounded-lg'>Register</Text>
-								</Pressable>
-							</Link>
+							{/* <Link asChild href='/register'> */}
+							<Pressable onPress={() => navigation.navigate('Register')}>
+								<Text className='px-4 py-2 font-bold text-center text-white bg-blue-700 rounded-lg'>Register</Text>
+							</Pressable>
+							{/* </Link> */}
 						</View>
 					</View>
 				)}

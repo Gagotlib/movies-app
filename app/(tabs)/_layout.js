@@ -20,7 +20,7 @@ export default function TabsLayout() {
         title: " My Profile",
 
         tabBarIcon: ({ color }) => <FontAwesome size={28} name='user' color={color} />,
-        // href:null,
+        // href:null, // si no queremos que aparezca la tab
       }}
       />
 		</Tabs>

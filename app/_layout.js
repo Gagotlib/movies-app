@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { Link, Slot, Stack } from 'expo-router'
-import { Header } from 'react-native/Libraries/NewAppScreen'
+import { Stack } from 'expo-router'
+
 
 const _layout = () => {
 	return (

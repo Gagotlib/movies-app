@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, Alert } from 'react-native'
+import { View, Text, StyleSheet, Alert, Pressable } from 'react-native'
 import React from 'react'
 import StyledTextInput from '../components/StyledTextInput'
 import StyledButton from '../components/StyledButton'
 import axios from 'axios'
 import { Form, Formik } from 'formik'
+import { Link } from 'expo-router'
 
 const Register = ({ navigation }) => {
 	const validate = (values) => {
@@ -75,7 +76,10 @@ const Register = ({ navigation }) => {
 								</StyledButton>
 							)}
 
-							<StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton>
+							{/* <StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton> */}
+							<Link asChild href='/'>
+								<StyledButton>Back Home</StyledButton>
+							</Link>
 						</View>
 					</View>
 				)}
