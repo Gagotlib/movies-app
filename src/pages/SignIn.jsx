@@ -47,7 +47,7 @@ export default function SignIn({ navigation }) {
 			<Text style={styles.h1}>Sing in</Text>
 			<Formik validate={validate} initialValues={{ email: '', password: '' }} onSubmit={handleLogin}>
 				{({ handleSubmit, values, errors, handleChange }) => (
-					<View>
+					<View className='flex gap-5'>
 						<StyledTextInput style={errors.email && { borderColor: 'red' }} placeholder='Email' value={values.email} onChangeText={handleChange('email')} />
 						{errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
 
@@ -71,7 +71,7 @@ export default function SignIn({ navigation }) {
 							<Text style={styles.text}>Still not registered?</Text>
 							{/* <Link asChild href='/register'> */}
 							<Pressable onPress={() => navigation.navigate('Register')}>
-								<Text className='px-4 py-2 font-bold text-center text-white bg-blue-700 rounded-lg'>Register</Text>
+								<Text className='py-2 font-bold text-center text-white bg-blue-700 px-7 rounded-3xl'>Register</Text>
 							</Pressable>
 							{/* </Link> */}
 						</View>
@@ -85,9 +85,10 @@ export default function SignIn({ navigation }) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 20
-		// justifyContent: 'center',
-		// alignItems: 'center'
+		padding: 20,
+		justifyContent: 'center',
+		// alignItems: 'center',
+		gap: 20,
 	},
 	h1: {
 		fontSize: 20,

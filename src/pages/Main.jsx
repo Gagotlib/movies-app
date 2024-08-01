@@ -1,14 +1,13 @@
-import {  StyleSheet,  View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import MoviesList from '../components/MoviesList'
 import React from 'react'
-
+import SplashLoadingScreen from '../components/LoadingScreen'
 
 export default function Main({ navigation }) {
-	return (
-		<View style={styles.container}>
-			<MoviesList />
+	
+	return <View style={styles.container}>
+		 <MoviesList /> 
 		</View>
-	)
 }
 
 const styles = StyleSheet.create({
@@ -16,7 +15,5 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		marginTop: 10
-
-	},
-	
+	}
 })

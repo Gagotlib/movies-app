@@ -4,35 +4,22 @@ import { Image, StyleSheet, Text, View, Modal, TouchableOpacity, Pressable } fro
 import ImageViewer from 'react-native-image-zoom-viewer'
 
 export default function MovieCard({ movie }) {
-	const [isVisible, setIsVisible] = useState(false)
-	const images = [
-		{
-			url: movie.poster
-		}
-	]
 
-	// useEffect(() => {
-	// 	console.log(movie.id)
-	// }, [])
 
 	return (
 		<Link href={`/${movie.id}`} style={styles.cardContainer} asChild key={movie.id}>
 			<Pressable>
 				<View className='flex flex-col items-center'>
 					<Text style={styles.movieTitle}>{movie.title}</Text>
-					<TouchableOpacity onPress={() => setIsVisible(true)}>
-						<Image style={styles.poster} source={{ uri: movie.poster }} />
-					</TouchableOpacity>
+
+					<Image style={styles.poster} source={{ uri: movie.poster }} />
+
 					<Text>Year: {movie.year}</Text>
 					<Text>Director: {movie.director}</Text>
 					<Text>Duration: {movie.duration}</Text>
 					<Text>Genre: {movie.genre.join(', ')}</Text>
 					<Text>Rate: {movie.rate}</Text>
 					<Text style={{ textAlign: 'center' }}>Description: {movie.description}</Text>
-
-					<Modal visible={isVisible} transparent={true} onRequestClose={() => setIsVisible(false)}>
-						<ImageViewer imageUrls={images} enableSwipeDown={true} onSwipeDown={() => setIsVisible(false)} />
-					</Modal>
 				</View>
 			</Pressable>
 		</Link>

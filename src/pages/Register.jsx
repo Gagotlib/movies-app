@@ -55,7 +55,7 @@ const Register = ({ navigation }) => {
 			<Text style={styles.h1}>Register</Text>
 			<Formik validate={validate} initialValues={{ email: '', username: '', password: '' }} onSubmit={handleRegister}>
 				{({ handleSubmit, values, errors, handleChange }) => (
-					<View>
+					<View className='flex gap-5'>
 						<StyledTextInput style={errors.username && { borderColor: 'red' }} placeholder='Username' value={values.username} onChangeText={handleChange('username')} />
 						{errors.username && <Text style={{ color: 'red' }}>{errors.username}</Text>}
 
@@ -91,8 +91,10 @@ const Register = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 20
-		// justifyContent: 'center',
+		paddingTop: 0,
+		padding: 20,
+		gap: 20,
+		justifyContent: 'center',
 		// alignItems: 'center'
 	},
 	h1: {

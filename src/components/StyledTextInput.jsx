@@ -9,9 +9,9 @@ export default function StyledTextInput({ style = {}, error, ...props }) {
 
 const styles = StyleSheet.create({
 	textInput: {
-		borderRadius: 5,
-		borderWidth: 1,
-		borderColor: 'blue',
+		borderRadius: 20,
+		// borderWidth: 1,
+		// borderColor: 'blue',
 		backgroundColor: 'white',
 		color: 'black',
 		fontSize: 16,
