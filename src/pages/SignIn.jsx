@@ -5,8 +5,11 @@ import StyledTextInput from '../components/StyledTextInput'
 import StyledButton from '../components/StyledButton'
 import axios from 'axios'
 import { Link, router } from 'expo-router'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../features/auth/redux/userSlice'
 
 export default function SignIn({ navigation }) {
+	  const dispatch = useDispatch()
 	const validate = (values) => {
 		const errors = {}
 
@@ -30,11 +33,13 @@ export default function SignIn({ navigation }) {
 		try {
 			values.email = values.email.toLowerCase()
 			const response = await axios.post('http://192.168.178.48:3000/users/login', values)
-			// console.log(response.data)
-			Alert.alert('Login successful')
+			console.log(response.data)
 			//here goes logic to save de user in session
-
-			router.push('/')
+			// dispatch(setUser(response.data))
+			// dispatch(setUserFavMovies(response.data.favMovies));
+			
+			Alert.alert('Login successful')
+			// router.push('/')
 		} catch (error) {
 			// console.error('Login failed:', error)
 			const errorMessage = error.response?.data?.error || 'An error occurred during login'

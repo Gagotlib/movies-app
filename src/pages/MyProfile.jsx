@@ -1,9 +1,17 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { router } from 'expo-router'
 
+export default function MyProfile({ navigation }) {
+	const dispatch = useDispatch()
+	const user = useSelector((state) => state.user.user)
+	console.log(user)
 
-export default function MyProfile({navigation}) {
-	const user = false
+	const handleLogout = () => {
+		dispatch(logout())
+		router.push('/')
+	}
 
 	return (
 		<View>
@@ -11,6 +19,9 @@ export default function MyProfile({navigation}) {
 				<>
 					<Text>MyProfile</Text>
 					<Text>Welcome {`${user.username}`}</Text>
+					<Pressable onPress={handleLogout}>
+						<Text>Logout</Text>
+					</Pressable>
 				</>
 			) : (
 				<View className='flex items-center justify-center gap-10 px-4 pt-8'>
@@ -29,5 +40,3 @@ export default function MyProfile({navigation}) {
 		</View>
 	)
 }
-
-
