@@ -5,19 +5,17 @@ import SignIn from '../pages/SignIn'
 import Register from '../pages/Register'
 import MyProfile from '../pages/MyProfile'
 import LoadingScreen from '../components/LoadingScreen'
+import { useSelector } from 'react-redux'
 
 export default function MyProfileNavigator({ navigation }) {
 	const MyProfileStack = createNativeStackNavigator()
 
-	if (state.isLoading) {
-		// We haven't finished checking for the token yet
-		return <LoadingScreen />
-	}
-
+	const user = useSelector((state) => state.user.user)
+	
 	return (
 		<>
 			<StatusBar style='auto' />
-		 {state.userToken == null ?
+		 {user == null ?
 		 (
 			<MyProfileStack.Navigator initialRouteName='MyProfile'>
 				<MyProfileStack.Screen name='MyProfile' component={MyProfile} options={{headerShown: false}} />

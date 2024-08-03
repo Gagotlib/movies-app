@@ -78,11 +78,12 @@ async function addFavoriteMovie(userId, movieId) {
 		if (!user.favMovies.includes(movieId)) {
 			user.favMovies.push(movieId)
 			await user.save()
+
 		} else {
 			throw new Error('Movie already added')
 		}
 
-		return user
+		return movie
 	} catch (error) {
 		throw new Error(error.message)
 	}
@@ -117,7 +118,7 @@ async function removeFavoriteMovie(userId, movieId) {
 async function loginUser(email, password) {
 	try {
     const lowerEmail = email.toLowerCase()
-		const user = await User.findOne({ email: lowerEmail })
+		const user = await User.findOne({ email: lowerEmail }).populate('favMovies')
 		if (!user) {
 			throw new Error('User not found')
 		}

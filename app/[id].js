@@ -1,16 +1,16 @@
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Link, Stack } from 'expo-router'
 import { FontAwesome } from '@expo/vector-icons'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useLocalSearchParams } from 'expo-router'
 import axios from 'axios'
 import ImageViewer from 'react-native-image-zoom-viewer'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUserFavMovie, removeUserFavMovie } from '../src/features/auth/redux/userSlice'
 
 export default function Detail({}) {
 	const { id } = useLocalSearchParams()
 	const [movie, setMovie] = useState(undefined)
-	// const user = user
 	const [isFavorite, setIsFavorite] = useState(undefined)
 	const [isVisible, setIsVisible] = useState(false)
 	const images = [
@@ -18,8 +18,14 @@ export default function Detail({}) {
 			url: movie?.poster
 		}
 	]
-	const user = false
-
+	const dispatch = useDispatch()
+	const user = useSelector((state) => state.user.user)
+	if (user && user.favMovies) {
+		for (const favMovie of user.favMovies) {
+			console.log('en Detail peliculas favoritas del estado user:', favMovie.title)
+		}
+	}
+// console.log("user.favMovies",user.favMovies);
 	useEffect(() => {
 		async function getMovie() {
 			try {
@@ -30,32 +36,54 @@ export default function Detail({}) {
 			}
 		}
 		getMovie(id)
-	}, [])
+	}, [id])
 
-	const handleAddToFavorites = async ( movieId) => {
+useEffect(() => {
+	if (user && user.favMovies) {
+		const favorite = user.favMovies.some((movie) => movie._id === id)
+		setIsFavorite(favorite)
+		console.log('isFavorite:', favorite)
+	}
+}, [user, id])
+
+	const handleAddToFavorites = async (movieId) => {
 		if (!user) {
-			console.log('No user found');
+			console.log('No user found')
 			return
 		}
-		
-		console.log('Added to favorites');
-		setIsFavorite(true)
-		// try {
-		// 	const response = await axios.put(`http://192.168.178.48:3000/users/favorite/${userId}`, movieId)
-		// 	console.log(response.data)
-		// } catch (error) {
-		// 	console.log(error)
-		// }
+		console.log('user ID:', user._id, 'movieId:', movieId)
+		const body = { movieId: movieId }
+
+		try {
+			const response = await axios.put(`http://192.168.178.48:3000/users/favorite/${user._id}`, body)
+			console.log(response.data)
+			dispatch(addUserFavMovie(response.data))
+			setIsFavorite(true)
+			console.log('Added to favorites')
+			Alert.alert('Added to favorites')
+		} catch (error) {
+			console.log(error.response.data)
+		}
 	}
-	const handleRemoveFromFavorites = async (userId, movieId) => {
-	console.log('Removed from favorites');
-	setIsFavorite(false)
-		// try {
-		// 	const response = await axios.delete(`http://192.168.178.48:3000/users/favorite/${userId}`, movieId)
-		// 	console.log(response.data)
-		// } catch (error) {
-		// 	console.log(error)
-		// }
+	const handleRemoveFromFavorites = async (movieId) => {
+		if (!user) {
+			console.log('No user found')
+			return
+		}
+		const body = { movieId: movieId }
+		console.log(user._id, movieId)
+		try {
+			const response = await axios.delete(`http://192.168.178.48:3000/users/favorite/${user._id}`, {
+				data: { movieId: movieId }
+			})
+			// console.log(response.data)
+			dispatch(removeUserFavMovie(movieId))
+			setIsFavorite(false)
+			console.log('Removed from favorites')
+			Alert.alert('Removed from favorites')
+		} catch (error) {
+			console.log(error.response.data)
+		}
 	}
 
 	return (
@@ -68,14 +96,14 @@ export default function Detail({}) {
 					</TouchableOpacity>
 					{isFavorite ? (
 						<View style={{ position: 'absolute', top: -20, right: -20, zIndex: 10 }} className='p-2 bg-white border-2 rounded-full'>
-							<Pressable onPress={() => handleRemoveFromFavorites(1, movie?._id)}>
-								<Ionicons name='heart-dislike-sharp' size={24} color='black' />
+							<Pressable onPress={() => handleRemoveFromFavorites(movie?._id)}>
+								<FontAwesome name='heart' size={24} color='pink' />
 							</Pressable>
 						</View>
 					) : (
 						<View style={{ position: 'absolute', top: -20, right: -20, zIndex: 10 }} className='p-2 bg-white border-2 rounded-full'>
-							<Pressable onPress={() => handleAddToFavorites(1, movie?._id)}>
-								<FontAwesome name='heart' size={24} color='pink' />
+							<Pressable onPress={() => handleAddToFavorites(movie?._id)}>
+								<Ionicons name='heart-dislike-sharp' size={24} color='black' />
 							</Pressable>
 						</View>
 					)}

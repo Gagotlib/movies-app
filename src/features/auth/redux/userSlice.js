@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
 	user: null,
-	userFavMovies: []
 }
 
 export const userSlice = createSlice({
@@ -12,16 +11,20 @@ export const userSlice = createSlice({
 		setUser: (state, action) => {
 			state.user = action.payload
 		},
-		setUserFavMovies: (state, action) => {
-			state.userFavMovies = action.payload
+		addUserFavMovie: (state, action) => {
+			if (!state.user.favMovies.includes(action.payload)) {
+				state.user.favMovies.push(action.payload)
+			}
+		},
+		removeUserFavMovie: (state, action) => {
+			state.user.favMovies = state.user.favMovies.filter((movieId) => movieId._id !== action.payload)
 		},
 		logout: (state) => {
 			state.user = null
-			state.userFavMovies = []
 		}
 	}
 })
 
-export const { setUser, logout, setUserFavMovies } = userSlice.actions
+export const { setUser, logout,  addUserFavMovie, removeUserFavMovie } = userSlice.actions
 
 export default userSlice.reducer

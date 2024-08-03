@@ -33,17 +33,18 @@ export default function SignIn({ navigation }) {
 		try {
 			values.email = values.email.toLowerCase()
 			const response = await axios.post('http://192.168.178.48:3000/users/login', values)
-			console.log(response.data)
+			// console.log("response.data del login",response.data)
+			// console.log("response.data.user del login",response.data.user)
+			// console.log("response.data.user.favMovies del login",response.data.user.favMovies)
 			//here goes logic to save de user in session
-			// dispatch(setUser(response.data))
-			// dispatch(setUserFavMovies(response.data.favMovies));
+			dispatch(setUser(response.data.user))
 			
-			Alert.alert('Login successful')
-			// router.push('/')
+			// Alert.alert('Login successful')
+			router.push('/')
 		} catch (error) {
-			// console.error('Login failed:', error)
+			console.error('Login failed:', error.response?.data?.error)
 			const errorMessage = error.response?.data?.error || 'An error occurred during login'
-			Alert.alert('Login Error', errorMessage)
+			// Alert.alert('Login Error', errorMessage)
 		}
 	}
 
