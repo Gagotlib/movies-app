@@ -22,7 +22,8 @@ React native App that has a movies catalog. Users can register, login, and add m
 ### Frontend
 
 - React native
-- Expo
+- Redux / Redux Toolkit
+- Expo (Router , Navigation)
 - Tailwind
 - Formik
 - JavaScript
@@ -30,6 +31,7 @@ React native App that has a movies catalog. Users can register, login, and add m
 ### Backend
 
 - NodeJs
+- Firebase (Authentication)
 - JavaScript
 - Express
 - Mongodb
