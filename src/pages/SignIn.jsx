@@ -1,4 +1,4 @@
-import { Alert, Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, Button, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { Form, Formik } from 'formik'
 import StyledTextInput from '../components/StyledTextInput'
@@ -49,42 +49,44 @@ export default function SignIn({ navigation }) {
 	}
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.h1}>Sing in</Text>
-			<Formik validate={validate} initialValues={{ email: '', password: '' }} onSubmit={handleLogin}>
-				{({ handleSubmit, values, errors, handleChange }) => (
-					<View className='flex gap-5'>
-						<StyledTextInput style={errors.email && { borderColor: 'red' }} placeholder='Email' value={values.email} onChangeText={handleChange('email')} />
-						{errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
+		<KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
+			<View style={styles.container}>
+				{/* <Text style={styles.h1}>Sing in</Text> */}
+				<Formik validate={validate} initialValues={{ email: '', password: '' }} onSubmit={handleLogin}>
+					{({ handleSubmit, values, errors, handleChange }) => (
+						<View className='flex gap-5'>
+							<StyledTextInput style={errors.email && { borderColor: 'red' }} placeholder='Email' value={values.email} onChangeText={handleChange('email')} />
+							{errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
 
-						<StyledTextInput style={errors.password && { borderColor: 'red' }} placeholder='Password' secureTextEntry={true} value={values.password} onChangeText={handleChange('password')} />
-						{errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
-						<View className='flex items-center'>
-							{/* si hay errores quiero que se deshabillite el sumbit */}
-							{Object.keys(errors).length ? (
-								<StyledButton disabled style={{ backgroundColor: 'gray' }}>
-									Sign In
-								</StyledButton>
-							) : (
-								<StyledButton onPress={handleSubmit} style={{ backgroundColor: 'green' }}>
-									Sing In
-								</StyledButton>
-							)}
+							<StyledTextInput style={errors.password && { borderColor: 'red' }} placeholder='Password' secureTextEntry={true} value={values.password} onChangeText={handleChange('password')} />
+							{errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
+							<View className='flex items-center'>
+								{/* si hay errores quiero que se deshabillite el sumbit */}
+								{Object.keys(errors).length ? (
+									<StyledButton disabled style={{ backgroundColor: 'gray' }}>
+										Sign In
+									</StyledButton>
+								) : (
+									<StyledButton onPress={handleSubmit} style={{ backgroundColor: 'green' }}>
+										Sing In
+									</StyledButton>
+								)}
 
-							{/* <StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton> */}
+								{/* <StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton> */}
+							</View>
+							<View className='flex items-center mt-10'>
+								<Text style={styles.text}>Still not registered?</Text>
+								{/* <Link asChild href='/register'> */}
+								<Pressable onPress={() => navigation.navigate('Register')} className='flex w-4/5 '>
+									<Text className='py-3 font-bold text-center text-white bg-blue-700 px-7 rounded-xl'>Register</Text>
+								</Pressable>
+								{/* </Link> */}
+							</View>
 						</View>
-						<View className='flex items-center mt-10'>
-							<Text style={styles.text}>Still not registered?</Text>
-							{/* <Link asChild href='/register'> */}
-							<Pressable onPress={() => navigation.navigate('Register')}>
-								<Text className='py-2 font-bold text-center text-white bg-blue-700 px-7 rounded-3xl'>Register</Text>
-							</Pressable>
-							{/* </Link> */}
-						</View>
-					</View>
-				)}
-			</Formik>
-		</View>
+					)}
+				</Formik>
+			</View>
+		</KeyboardAvoidingView>
 	)
 }
 

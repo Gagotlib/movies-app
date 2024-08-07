@@ -12,7 +12,8 @@ const _layout = () => {
 					screenOptions={{
 						// headerStyle: { backgroundColor: 'rgba(255, 255, 255' },
 						// headerTitleStyle: { color: 'black' },
-						headerTitle: 'Movies App'
+						headerTitle: 'Movies',
+						headerShown: true,
 						// headerRight: () => (
 						// 	<View className='flex flex-row items-center gap-3'>
 						// 		{/* <Text className='text-xl'>Movies App</Text> */}
@@ -21,6 +22,7 @@ const _layout = () => {
 						// 		</Link>
 						// 	</View>
 						// )
+						// headerBackTitleVisible: false,
 					}}
 				/>
 			</View>

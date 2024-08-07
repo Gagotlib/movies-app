@@ -1,14 +1,16 @@
 import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { FontAwesome } from '@expo/vector-icons'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useLocalSearchParams } from 'expo-router'
+import { Stack, useLocalSearchParams } from 'expo-router'
 import axios from 'axios'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { useDispatch, useSelector } from 'react-redux'
 import { addUserFavMovie, removeUserFavMovie } from '../src/features/auth/redux/userSlice'
+import { useNavigation } from '@react-navigation/native'
 
 export default function Detail({}) {
+	const navigation = useNavigation()
 	const { id } = useLocalSearchParams()
 	const [movie, setMovie] = useState(undefined)
 	const [isFavorite, setIsFavorite] = useState(undefined)
@@ -25,7 +27,7 @@ export default function Detail({}) {
 			console.log('en Detail peliculas favoritas del estado user:', favMovie.title)
 		}
 	}
-// console.log("user.favMovies",user.favMovies);
+	// console.log("user.favMovies",user.favMovies);
 	useEffect(() => {
 		async function getMovie() {
 			try {
@@ -38,17 +40,24 @@ export default function Detail({}) {
 		getMovie(id)
 	}, [id])
 
-useEffect(() => {
-	if (user && user.favMovies) {
-		const favorite = user.favMovies.some((movie) => movie._id === id)
-		setIsFavorite(favorite)
-		console.log('isFavorite:', favorite)
-	}
-}, [user, id])
+	useEffect(() => {
+		if (user && user.favMovies) {
+			const favorite = user.favMovies.some((movie) => movie._id === id)
+			setIsFavorite(favorite)
+			console.log('isFavorite:', favorite)
+		}
+	}, [user, id])
+
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerTitle: movie?.title || 'MOvie Detail'
+		})
+	})
 
 	const handleAddToFavorites = async (movieId) => {
 		if (!user) {
 			console.log('No user found')
+			Alert.alert('You must be logged in to add a Favorite')
 			return
 		}
 		console.log('user ID:', user._id, 'movieId:', movieId)
@@ -68,6 +77,7 @@ useEffect(() => {
 	const handleRemoveFromFavorites = async (movieId) => {
 		if (!user) {
 			console.log('No user found')
+			Alert.alert('You must be logged in to add a Favorite')
 			return
 		}
 		const body = { movieId: movieId }
@@ -89,7 +99,7 @@ useEffect(() => {
 	return (
 		<ScrollView contentContainerStyle={{ paddingTop: 20 }}>
 			<View className='flex items-center justify-center gap-3 px-4'>
-				<Text className='mb-3 text-3xl'> {movie?.title}</Text>
+				{/* <Text className='mb-3 text-3xl'> {movie?.title}</Text> */}
 				<View style={{ position: 'relative' }} className='flex '>
 					<TouchableOpacity onPress={() => setIsVisible(true)}>
 						<Image source={{ uri: movie?.poster }} style={{ width: 200, height: 400, borderRadius: 10 }} />

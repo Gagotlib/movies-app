@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Alert, Pressable } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Alert, Pressable, KeyboardAvoidingView, Platform } from 'react-native'
+import React, { useRef } from 'react'
 import StyledTextInput from '../components/StyledTextInput'
 import StyledButton from '../components/StyledButton'
 import axios from 'axios'
@@ -50,41 +50,66 @@ const Register = ({ navigation }) => {
 		}
 	}
 
+  const emailInputRef = useRef(null)
+	const passwordInputRef = useRef(null)
+	
 	return (
-		<View style={styles.container}>
-			<Text style={styles.h1}>Register</Text>
-			<Formik validate={validate} initialValues={{ email: '', username: '', password: '' }} onSubmit={handleRegister}>
-				{({ handleSubmit, values, errors, handleChange }) => (
-					<View className='flex gap-5'>
-						<StyledTextInput style={errors.username && { borderColor: 'red' }} placeholder='Username' value={values.username} onChangeText={handleChange('username')} />
-						{errors.username && <Text style={{ color: 'red' }}>{errors.username}</Text>}
+		<KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
+			<View style={styles.container}>
+				{/* <Text style={styles.h1}>Register</Text> */}
+				<Formik validate={validate} initialValues={{ email: '', username: '', password: '' }} onSubmit={handleRegister}>
+					{({ handleSubmit, values, errors, handleChange }) => (
+						<View className='flex gap-5'>
+							<StyledTextInput
+								style={errors.username && { borderColor: 'red' }}
+								placeholder='Username'
+								value={values.username}
+								onChangeText={handleChange('username')}
+							/>
+							{errors.username && <Text style={{ color: 'red' }}>{errors.username}</Text>}
 
-						<StyledTextInput style={errors.email && { borderColor: 'red' }} placeholder='Email' value={values.email} onChangeText={handleChange('email')} />
-						{errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
+							<StyledTextInput
+								style={errors.email && { borderColor: 'red' }}
+								placeholder='Email'
+								value={values.email}
+								onChangeText={handleChange('email')}
 
-						<StyledTextInput style={errors.password && { borderColor: 'red' }} placeholder='Password' secureTextEntry={true} value={values.password} onChangeText={handleChange('password')} />
-						{errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
-						<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-							{/* si hay errores quiero que se deshabillite el sumbit */}
-							{Object.keys(errors).length ? (
-								<StyledButton disabled style={{ backgroundColor: 'gray' }}>
-									Register
-								</StyledButton>
-							) : (
-								<StyledButton onPress={handleSubmit} style={{ backgroundColor: 'green' }}>
-									Register
-								</StyledButton>
-							)}
+							/>
+							{errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
 
-							{/* <StyledButton onPress={() => navigation.navigate('Main')}>Back Home</StyledButton> */}
-							<Link asChild href='/'>
-								<StyledButton>Back Home</StyledButton>
-							</Link>
+							<StyledTextInput
+								style={errors.password && { borderColor: 'red' }}
+								placeholder='Password'
+								secureTextEntry={true}
+								value={values.password}
+								onChangeText={handleChange('password')}
+								onSubmitEditing={handleSubmit}
+							/>
+							{errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
+
+							<View className='flex flex-col items-center w-full'>
+								{/* si hay errores quiero que se deshabillite el sumbit */}
+								{Object.keys(errors).length ? (
+									<StyledButton disabled style={{ backgroundColor: 'gray' }}>
+										Register
+									</StyledButton>
+								) : (
+									<StyledButton onPress={handleSubmit} style={{ backgroundColor: 'green' }}>
+										Register
+									</StyledButton>
+								)}
+
+								<Link asChild href='/'>
+									<Pressable style={styles.button}>
+										<Text style={styles.buttonText}>Back Home</Text>
+									</Pressable>
+								</Link>
+							</View>
 						</View>
-					</View>
-				)}
-			</Formik>
-		</View>
+					)}
+				</Formik>
+			</View>
+		</KeyboardAvoidingView>
 	)
 }
 
@@ -92,9 +117,9 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingTop: 0,
-		padding: 20,
+		paddingHorizontal: 20,
 		gap: 20,
-		justifyContent: 'center',
+		justifyContent: 'center'
 		// alignItems: 'center'
 	},
 	h1: {
@@ -102,6 +127,19 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 		color: 'black'
+	},
+	button: {
+		backgroundColor: 'blue',
+		paddingVertical: 15,
+		margin: 10,
+		borderRadius: 10,
+		width: '85%',
+		textAlign: 'center'
+	},
+	buttonText: {
+		color: 'white',
+		textAlign: 'center',
+		fontWeight: 'bold'
 	}
 })
 

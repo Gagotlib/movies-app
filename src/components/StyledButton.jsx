@@ -16,10 +16,10 @@ export default function StyledButton({ style = {}, children, ...props }) {
 const styles = StyleSheet.create({
 	button: {
 		backgroundColor: 'blue',
-		padding: 10,
+		paddingVertical: 15,
 		margin: 5,
-		borderRadius: 20,
-		width: '40%',
+		borderRadius: 10,
+		width: '85%',
 		textAlign: 'center'
 	},
 	buttonText: {
