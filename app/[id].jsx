@@ -50,9 +50,10 @@ export default function Detail({}) {
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
-			headerTitle: movie?.title || 'MOvie Detail'
+			headerShown: true,
+			headerTitle: movie?.title || 'Movie Detail'
 		})
-	})
+	}, [navigation, movie])
 
 	const handleAddToFavorites = async (movieId) => {
 		if (!user) {
@@ -133,3 +134,8 @@ export default function Detail({}) {
 }
 
 const styles = StyleSheet.create({})
+
+// Detail.layoutOptions = {
+// 	headerShown: true, // Muestra el header
+// 	headerTitle: 'Movie Details' // Puedes personalizar el título aquí
+// }

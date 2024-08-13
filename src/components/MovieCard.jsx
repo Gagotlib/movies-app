@@ -1,7 +1,7 @@
 import { Link } from 'expo-router'
-import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, View, Modal, TouchableOpacity, Pressable } from 'react-native'
-import ImageViewer from 'react-native-image-zoom-viewer'
+import React from 'react'
+import { Image, StyleSheet, Text, View, Pressable } from 'react-native'
+
 
 export default function MovieCard({ movie }) {
 

@@ -13,7 +13,7 @@ const _layout = () => {
 						// headerStyle: { backgroundColor: 'rgba(255, 255, 255' },
 						// headerTitleStyle: { color: 'black' },
 						headerTitle: 'Movies',
-						headerShown: true,
+						headerShown: false,
 						// headerRight: () => (
 						// 	<View className='flex flex-row items-center gap-3'>
 						// 		{/* <Text className='text-xl'>Movies App</Text> */}
