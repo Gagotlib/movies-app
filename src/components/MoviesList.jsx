@@ -13,7 +13,7 @@ export default function MoviesList() {
 	// sort movies
 	useEffect(() => {
 	 if (!Array.isArray(movies)) return
-		let sortedArray = [...movies] // Crear una copia del array de movies
+		let sortedArray = [...movies] 
 
 		if (selectedValue === 'Title') {
 			sortedArray.sort((a, b) => a.title.localeCompare(b.title))
@@ -24,7 +24,7 @@ export default function MoviesList() {
 		}
 
 		setSortedMovies(sortedArray)
-	}, [selectedValue, movies]) // Asegúrate de incluir `movies` como dependencia
+	}, [selectedValue, movies]) 
 
 	const [searchTerm, setSearchTerm] = React.useState('')
 
@@ -38,7 +38,7 @@ export default function MoviesList() {
 
 	return (
 		<View>
-			<SortSelector selectedValue={selectedValue} setSelectedValue={setSelectedValue} />
+			{/* <SortSelector selectedValue={selectedValue} setSelectedValue={setSelectedValue} /> */}
 			<TextInput style={styles.input} placeholder='Search by Title, Director, Year or Genre' value={searchTerm} onChangeText={setSearchTerm} />
 			{movies && movies.length ? <FlatList data={filteredMovies} renderItem={({ item: movie }) => <MovieCard movie={movie} />}></FlatList> : <Text style={styles.text}> There are no movies </Text>}
 		</View>
